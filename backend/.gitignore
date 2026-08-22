@@ -1,0 +1,23 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Generated files
+uploads/
+outputs/
+
+# React
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
