@@ -30,3 +30,4 @@ ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi"}
 
 # Limit for uploaded clips
 MAX_CLIP_SECONDS = 20
+
