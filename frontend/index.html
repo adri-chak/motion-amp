@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOTION AMP — Defence-Grade Motion Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 1: LANDING
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M2 10 Q5 4 8 10 Q11 16 14 10 Q17 4 20 10" stroke="#E8741A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="logo-text">MOTION <span class="logo-accent">AMP</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#" class="nav-link">How It Works</a>
+        <a href="#" class="nav-link">Technology</a>
+        <a href="#" class="nav-link">Analysis</a>
+      </div>
+      <button class="btn-primary" onclick="showPage('upload')">Start Analysis</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span>Defence-Grade Motion Analysis</span>
+      </div>
+      <h1 class="hero-heading">
+        Reveal the Motion<br/>
+        <em>You Can't See</em>
+      </h1>
+      <p class="hero-body">
+        Advanced video-based motion amplification reveals sub-millimetre vibrations invisible to the naked eye — enabling precision analysis of structures, machinery, and critical systems.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary btn-large" onclick="showPage('upload')">Analyze a Video</button>
+        <a href="#how-it-works" class="btn-ghost">See How It Works →</a>
+      </div>
+      <div class="trust-bar">
+        <span class="trust-item">• Computer Vision</span>
+        <span class="trust-item">• Motion Amplification</span>
+        <span class="trust-item">• FFT Analysis</span>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="visual-header">
+          <div class="visual-label">ORIGINAL FOOTAGE</div>
+          <div class="visual-label orange">MOTION AMPLIFIED</div>
+          <div class="freq-badge">
+            <div class="freq-badge-label">DOMINANT</div>
+            <div class="freq-badge-value">18.4 Hz</div>
+          </div>
+        </div>
+        <div class="visual-stage">
+          <!-- Left: original (static) tower -->
+          <div class="visual-panel left-panel">
+            <svg viewBox="0 0 120 180" class="tower-svg static-tower">
+              <line x1="60" y1="10" x2="20" y2="160" stroke="#8fa3b8" stroke-width="2"/>
+              <line x1="60" y1="10" x2="100" y2="160" stroke="#8fa3b8" stroke-width="2"/>
+              <line x1="30" y1="60" x2="90" y2="60" stroke="#8fa3b8" stroke-width="1.5"/>
+              <line x1="25" y1="100" x2="95" y2="100" stroke="#8fa3b8" stroke-width="1.5"/>
+              <line x1="20" y1="140" x2="100" y2="140" stroke="#8fa3b8" stroke-width="1.5"/>
+              <line x1="20" y1="160" x2="100" y2="160" stroke="#8fa3b8" stroke-width="2"/>
+            </svg>
+            <div class="flat-line"></div>
+          </div>
+
+          <!-- Amplify badge -->
+          <div class="amp-badge">×8.4</div>
+
+          <!-- Right: amplified (animated) tower -->
+          <div class="visual-panel right-panel">
+            <div class="tower-glow"></div>
+            <svg viewBox="0 0 120 180" class="tower-svg amp-tower" id="ampTower">
+              <line x1="60" y1="10" x2="20" y2="160" stroke="#E8741A" stroke-width="2.5"/>
+              <line x1="60" y1="10" x2="100" y2="160" stroke="#E8741A" stroke-width="2.5"/>
+              <line x1="30" y1="60" x2="90" y2="60" stroke="#f0a050" stroke-width="1.5"/>
+              <line x1="25" y1="100" x2="95" y2="100" stroke="#2E7D52" stroke-width="1.5"/>
+              <line x1="20" y1="140" x2="100" y2="140" stroke="#3B5EA6" stroke-width="1.5"/>
+              <line x1="20" y1="160" x2="100" y2="160" stroke="#2E7D52" stroke-width="2"/>
+            </svg>
+            <canvas id="waveCanvas" class="wave-canvas" width="200" height="40"></canvas>
+          </div>
+        </div>
+        <div class="visual-footer">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <span class="time-label">00:05 / 00:12</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps-section" id="how-it-works">
+    <div class="section-eyebrow">PROCESS</div>
+    <h2 class="section-heading">Three Steps to Insight</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon upload-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+          </svg>
+        </div>
+        <div class="step-label">STEP 01</div>
+        <h3 class="step-title">Upload</h3>
+        <p class="step-body">Upload any video recording of a structure, machinery, or component. MP4, MOV, AVI supported.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon analyze-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <div class="step-label">STEP 02</div>
+        <h3 class="step-title">Analyze</h3>
+        <p class="step-body">Our phase-based Riesz-pyramid algorithm amplifies subtle motions up to 1000×. Select frequency bands and regions of interest.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon discover-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="step-label">STEP 03</div>
+        <h3 class="step-title">Discover</h3>
+        <p class="step-body">Identify dominant frequencies, structural anomalies, and vibration patterns with engineering confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">READY TO BEGIN</div>
+      <h2 class="cta-heading">Start Amplifying Motion Today</h2>
+      <p class="cta-body">Upload a video and discover what's moving beneath the surface.<br/>Real-time analysis, instant insights.</p>
+      <button class="btn-saffron btn-large" onclick="showPage('upload')">Analyze a Video →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="logo">
+        <div class="logo-icon small">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+            <path d="M2 10 Q5 4 8 10 Q11 16 14 10 Q17 4 20 10" stroke="#E8741A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="logo-text small">MOTION <span class="logo-accent">AMP</span></span>
+      </div>
+      <span class="footer-tagline">Motion Amplification &amp; Vibration Analysis System</span>
+    </div>
+  </footer>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 2: UPLOAD
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-upload" class="page">
+
+  <nav class="navbar navbar-upload">
+    <div class="nav-inner">
+      <button class="btn-back" onclick="showPage('landing')">← Back</button>
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M2 10 Q5 4 8 10 Q11 16 14 10 Q17 4 20 10" stroke="#E8741A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="logo-text">MOTION <span class="logo-accent">AMP</span></span>
+      </div>
+      <div class="step-indicator">STEP 1 OF 2 — UPLOAD</div>
+    </div>
+  </nav>
+
+  <div class="upload-layout">
+    <!-- LEFT: Upload area -->
+    <div class="upload-main">
+      <div class="upload-header">
+        <h1 class="upload-title">Upload Video</h1>
+        <p class="upload-subtitle">Upload a video of the target structure or component for motion amplification analysis</p>
+      </div>
+
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept="video/*" style="display:none" onchange="handleFileSelect(event)" />
+        <div class="dropzone-content" id="dropzoneContent">
+          <div class="drop-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round">
+              <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+            </svg>
+          </div>
+          <p class="drop-main">Drag &amp; drop your video</p>
+          <p class="drop-sub">or click to browse files</p>
+          <p class="drop-formats">MP4 &bull; MOV &bull; AVI &bull; MKV — Up to 2 GB</p>
+        </div>
+        <div class="dropzone-preview" id="dropzonePreview" style="display:none">
+          <video id="videoPreview" controls playsinline preload="metadata"></video>
+          <div class="file-info" id="fileInfo"></div>
+        </div>
+      </div>
+
+      <!-- ROI -->
+      <div class="roi-section">
+        <div class="roi-header">
+          <div>
+            <h3 class="roi-title">Region of Interest</h3>
+            <p class="roi-sub">Select the area to focus analysis on</p>
+          </div>
+          <span class="roi-tag">Full Frame</span>
+        </div>
+        <div class="roi-canvas-wrap">
+          <canvas id="roiCanvas" width="590" height="280"></canvas>
+          <div class="roi-hint">Drag handles to adjust</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Settings -->
+    <div class="upload-sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Frequency Preset</h3>
+        <p class="sidebar-sub">Select target vibration range</p>
+        <div class="preset-list">
+          <div class="preset-item active" onclick="selectPreset(this, 'engine')">
+            <div class="preset-info">
+              <span class="preset-name">Engine / Motor</span>
+              <span class="preset-tag">10–200 Hz</span>
+            </div>
+            <span class="preset-desc">Rotating machinery</span>
+          </div>
+          <div class="preset-item" onclick="selectPreset(this, 'structural')">
+            <div class="preset-info">
+              <span class="preset-name">Structural Flex</span>
+              <span class="preset-tag">0.1–50 Hz</span>
+            </div>
+            <span class="preset-desc">Buildings &amp; bridges</span>
+          </div>
+          <div class="preset-item" onclick="selectPreset(this, 'custom')">
+            <div class="preset-info">
+              <span class="preset-name">Custom Range</span>
+              <span class="preset-tag">User-defined</span>
+            </div>
+            <span class="preset-desc">Manual Hz input</span>
+          </div>
+          <div class="custom-range-inputs" id="customRangeInputs" style="display:none">
+            <div class="custom-input-row">
+              <div class="custom-input-group">
+                <label>Min Hz</label>
+                <input type="number" placeholder="e.g. 5" />
+              </div>
+              <div class="custom-input-group">
+                <label>Max Hz</label>
+                <input type="number" placeholder="e.g. 100" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Analysis Settings</h3>
+        <div class="settings-list">
+          <div class="setting-row">
+            <div>
+              <span class="setting-name">Amplification Factor</span>
+              <span class="setting-hint">Recommended</span>
+            </div>
+            <span class="setting-value">8×</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <span class="setting-name">Temporal Filter</span>
+              <span class="setting-hint">Bandpass</span>
+            </div>
+            <span class="setting-value">Ideal BPF</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <span class="setting-name">Frame Sampling</span>
+              <span class="setting-hint">Auto-detected</span>
+            </div>
+            <span class="setting-value">30 fps</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <span class="setting-name">Color Map</span>
+              <span class="setting-hint">Displacement</span>
+            </div>
+            <span class="setting-value">Jet (HSV)</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-start" id="startBtn" onclick="startAnalysis()">
+        <span id="startBtnText">Upload a Video to Continue</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PROCESSING OVERLAY -->
+  <div class="processing-overlay" id="processingOverlay" style="display:none">
+    <div class="processing-card">
+      <div class="processing-spinner">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="24" stroke="#e5e7eb" stroke-width="3" fill="none"/>
+          <circle cx="28" cy="28" r="24" stroke="#E8741A" stroke-width="3" fill="none"
+            stroke-dasharray="100 50" stroke-dashoffset="0" stroke-linecap="round">
+            <animateTransform attributeName="transform" type="rotate" from="0 28 28" to="360 28 28" dur="1s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+      <h3 class="processing-title">Analyzing Motion</h3>
+      <p class="processing-sub" id="processingStep">Decomposing spatial frequencies…</p>
+      <div class="processing-bar-wrap">
+        <div class="processing-bar-fill" id="processingBar"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 3: RESULTS
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-results" class="page">
+
+  <nav class="navbar navbar-results">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M2 10 Q5 4 8 10 Q11 16 14 10 Q17 4 20 10" stroke="#E8741A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="logo-text">MOTION <span class="logo-accent">AMP</span></span>
+      </div>
+      <div class="results-nav-actions">
+        <button class="btn-outline-sm" onclick="showPage('upload')">New Analysis</button>
+        <button class="btn-primary" onclick="exportReport()">Export Report</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="results-layout">
+
+    <!-- TOP: Status row -->
+    <div class="results-status-row">
+      <div class="results-complete-label">Analysis Complete</div>
+      <div class="vibration-status detected">
+        <span class="status-dot"></span>
+        VIBRATION DETECTED
+      </div>
+    </div>
+
+    <!-- DOMINANT FREQUENCY — the hero number -->
+    <div class="freq-hero-section">
+      <div class="freq-hero-grid">
+        <div class="freq-hero-inner">
+          <div class="freq-hero-label">DOMINANT FREQUENCY</div>
+          <div class="freq-hero-number" id="freqNumber">18.4</div>
+          <div class="freq-hero-unit">Hz</div>
+        </div>
+        <div class="freq-meta-pills">
+          <div class="freq-pill">
+            <span class="pill-label">BAND</span>
+            <span class="pill-value">Engine / Motor</span>
+          </div>
+          <div class="freq-pill">
+            <span class="pill-label">CONFIDENCE</span>
+            <span class="pill-value">94.2%</span>
+          </div>
+          <div class="freq-pill green">
+            <span class="pill-label">STATUS</span>
+            <span class="pill-value">Periodic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN VIDEO COMPARISON -->
+    <div class="video-comparison-section">
+      <div class="video-panel-wrap">
+        <div class="video-panel">
+          <div class="video-panel-label">ORIGINAL FOOTAGE</div>
+          <div class="video-placeholder original-video">
+            <div class="video-overlay-grid"></div>
+            <svg viewBox="0 0 160 220" class="demo-tower">
+              <line x1="80" y1="14" x2="28" y2="200" stroke="#4a6080" stroke-width="2.5"/>
+              <line x1="80" y1="14" x2="132" y2="200" stroke="#4a6080" stroke-width="2.5"/>
+              <line x1="42" y1="74" x2="118" y2="74" stroke="#4a6080" stroke-width="1.8"/>
+              <line x1="36" y1="124" x2="124" y2="124" stroke="#4a6080" stroke-width="1.8"/>
+              <line x1="30" y1="174" x2="130" y2="174" stroke="#4a6080" stroke-width="1.8"/>
+              <line x1="28" y1="200" x2="132" y2="200" stroke="#4a6080" stroke-width="2.5"/>
+            </svg>
+            <div class="flat-line-result"></div>
+            <div class="video-timestamp">00:08</div>
+          </div>
+        </div>
+
+        <div class="video-divider">
+          <div class="divider-line"></div>
+          <div class="amp-pill">×8.4</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <div class="video-panel">
+          <div class="video-panel-label orange">MOTION AMPLIFIED</div>
+          <div class="video-placeholder amp-video" id="ampVideoPlaceholder">
+            <div class="video-overlay-grid"></div>
+            <div class="amp-glow-effect"></div>
+            <svg viewBox="0 0 160 220" class="demo-tower" id="resultTower">
+              <line x1="80" y1="14" x2="28" y2="200" stroke="#E8741A" stroke-width="2.5"/>
+              <line x1="80" y1="14" x2="132" y2="200" stroke="#E8741A" stroke-width="2.5"/>
+              <line x1="42" y1="74" x2="118" y2="74" stroke="#f0b060" stroke-width="1.8"/>
+              <line x1="36" y1="124" x2="124" y2="124" stroke="#2E7D52" stroke-width="1.8"/>
+              <line x1="30" y1="174" x2="130" y2="174" stroke="#3B5EA6" stroke-width="1.8"/>
+              <line x1="28" y1="200" x2="132" y2="200" stroke="#2E7D52" stroke-width="2.5"/>
+            </svg>
+            <canvas id="resultWaveCanvas" width="280" height="48" class="result-wave"></canvas>
+            <div class="video-timestamp">00:08</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METRICS row -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Dominant Frequency</div>
+          <div class="metric-value orange">18.4 Hz</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Vibration Intensity</div>
+          <div class="metric-value">74.3 dB</div>
+          <div class="metric-bar-wrap"><div class="metric-bar-fill" style="width:74%"></div></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Analysis Duration</div>
+          <div class="metric-value">42.1 s</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Frequency Band</div>
+          <div class="metric-value">10–200 Hz</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIBRATION GRAPH -->
+    <div class="graph-section">
+      <div class="graph-header">
+        <div>
+          <h3 class="graph-title">Vibration Intensity Over Time</h3>
+          <p class="graph-sub">Frame-differencing + FFT — amplitude envelope</p>
+        </div>
+        <div class="graph-legend">
+          <span class="legend-dot orange-dot"></span><span>Detected</span>
+          <span class="legend-dot green-dot"></span><span>Baseline</span>
+        </div>
+      </div>
+      <canvas id="vibrationChart" height="90"></canvas>
+    </div>
+
+    <!-- SUMMARY + ACTIONS -->
+    <div class="summary-actions-row">
+      <div class="summary-card">
+        <h3 class="summary-title">Analysis Summary</h3>
+        <p class="summary-body">
+          Strong periodic vibration detected at <strong>18.4 Hz</strong>, consistent with rotating machinery in the Engine/Motor band (10–200 Hz). The amplified output shows clear, coherent oscillation across the upper structural zone with an intensity of 74.3 dB — significantly above the no-vibration threshold. Camera shake compensation applied; one pre-existing structural resonance identified at 6.2 Hz. Recommend further inspection of the identified zone.
+        </p>
+        <div class="summary-tags">
+          <span class="tag amber-tag">Rotating Machinery</span>
+          <span class="tag blue-tag">Engine Band</span>
+          <span class="tag green-tag">High Confidence</span>
+        </div>
+      </div>
+      <div class="actions-col">
+        <button class="btn-primary btn-full" onclick="showPage('upload')">New Analysis</button>
+        <button class="btn-outline btn-full" onclick="exportReport()">Export Report</button>
+        <button class="btn-ghost-sm btn-full">Download Amplified Video</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
